@@ -1,0 +1,6 @@
+# Optional but recommended: pure-python LZ4 avoids shelling out to the CLI.
+# Without it the scripts fall back to the `lz4` binary (brew install lz4).
+lz4>=4.0
+
+# Charts only (make_charts.py). The ingest and analysis scripts need no deps.
+matplotlib>=3.8

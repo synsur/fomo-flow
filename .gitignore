@@ -1,0 +1,9 @@
+# Databases — regenerate with the ingest scripts (fomo_fomo.db is ~130 MB)
+*.db
+*.db-journal
+
+# Logs and scratch
+*.log
+__pycache__/
+*.pyc
+.DS_Store
