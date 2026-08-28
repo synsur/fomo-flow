@@ -83,9 +83,14 @@ def main():
     print(f"   modelled Hyperliquid fees      ${tot_hl:>14,.0f}")
     print(f"   {'-'*46}")
     print(f"   net to the cohort              ${tot_pnl - tot_bf - tot_hl:>14,.0f}   over {days} days")
-    print(f"\n   Of the total drain, fees are "
-          f"{(tot_bf+tot_hl)/abs(tot_pnl-tot_bf-tot_hl)*100:.0f}% "
-          f"-- the rest is market losses.")
+    fees = tot_bf + tot_hl
+    if tot_pnl < 0:
+        print(f"\n   Of the total drain, fees are {fees/abs(tot_pnl-fees)*100:.0f}%"
+              f" -- the rest is market losses.")
+    else:
+        print(f"\n   Traders made ${tot_pnl:,.0f} TRADING and paid ${fees:,.0f} in fees."
+              f"\n   Fees are {fees/tot_pnl:.1f}x their trading profit. They are not losing"
+              f"\n   to the market -- they are losing to the toll.")
 
     # ------------------------------------------------------------------ 2
     rule("2. Does EXPERIENCE help?  (the question the 10-day window can't ask)")
@@ -183,13 +188,15 @@ def main():
    ({d0[:4]}-{d0[4:6]}-{d0[6:]} to {d1[:4]}-{d1[4:6]}-{d1[6:]}), on public Hyperliquid data:
 
    · {wa/len(traded)*100:.1f}% of FOMO perp traders are net-positive after fees.
-   · The cohort is down ${abs(tot_pnl - tot_bf - tot_hl):,.0f} in {days} days -- and
-     {(tot_bf+tot_hl)/abs(tot_pnl-tot_bf-tot_hl)*100:.0f}% of that drain is FEES, not market losses.
+   · They made ${tot_pnl:,.0f} from trading and paid ${tot_bf+tot_hl:,.0f} in fees,
+     so the cohort is {"down" if tot_pnl-tot_bf-tot_hl < 0 else "up"} ${abs(tot_pnl-tot_bf-tot_hl):,.0f} over {days} days.
+     Fees are {(tot_bf+tot_hl)/abs(tot_pnl):.1f}x their trading {"profit" if tot_pnl>0 else "loss"}.
    · {tk/tot_f*100:.1f}% of fills cross the spread. They almost never post a limit order.
    · {one_day/users*100:.1f}% of wallets traded on exactly one day and never returned;
      {alive/len(eligible)*100:.1f}% of wallets old enough to churn were still trading at the end.
-   · Experience barely helps: win rate climbs from {sum(1 for u in traded if w_days[u]==1 and net_a(u)>0)/max(1,sum(1 for u in traded if w_days[u]==1))*100:.0f}% (1 day active)
-     to ~40% (16-30 days), but return on notional stays negative in every bucket.
+   · Win rate climbs from {sum(1 for u in traded if w_days[u]==1 and net_a(u)>0)/max(1,sum(1 for u in traded if w_days[u]==1))*100:.0f}% (1 day active) to
+     {sum(1 for u in traded if 16<=w_days[u]<=30 and net_a(u)>0)/max(1,sum(1 for u in traded if 16<=w_days[u]<=30))*100:.0f}% (16-30 days). Return on notional is negative in
+     {sum(1 for lo,hi in [(1,1),(2,3),(4,7),(8,15),(16,30),(31,999)] if (lambda c: c and sum(net_a(u) for u in c)/sum(w_not[u] for u in c) < 0)([u for u in traded if lo<=w_days[u]<=hi]))} of 6 experience buckets.
    · FOMO collected ${tot_bf:,.0f} in builder fees on ${all_no:,.0f} of notional.
 """)
     con.close()
