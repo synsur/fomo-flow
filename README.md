@@ -8,21 +8,20 @@ RPC. **Nothing touches fomo.family's servers.** No API key is required for any o
 
 ## What it found
 
-Across **725,603 perpetuals fills** (17,962 wallets, 2026-06-05 → 08-25) and **5,882
+Across **766,931 perpetuals fills** (18,979 wallets, 2026-06-05 → 08-27) and **5,882
 Solana spot trades**:
 
 - **They are not losing to the market. They are losing to the toll.** Traders made
-  **$839,776 from actual trading** and paid **$1,589,442 in fees** — fees are **1.9×
-  their trading profit**. The cohort is down $749,665. Only 33.5% finish ahead.
-- **98.5% of fills cross the spread.** Limit orders are 2% of activity.
-- **43.1% of wallets traded on exactly one day** and never came back. Of those old
-  enough to churn, 23.4% were still trading at the end.
+  **$1,027,682 from actual trading** and paid **$1,655,154 in fees** — fees are **1.6×
+  their trading profit**. The cohort is down $627,473. Only about a third finish ahead.
+- **98.4% of fills cross the spread.** Limit orders are ~2% of activity.
+- **42.2% of wallets traded on exactly one day** and never came back.
 - **The advertised fee rate is a default, not a price.** It is a per-account setting
   that gets granted *and revoked* by hand — 2 grants and 26 revocations observed on
   perps; every long-history spot account observed repriced. No volume threshold:
   accounts lost a discount after $997 of trading and kept it past $5M.
-- **Discounted accounts are 0.6% of wallets and 40% of the top 10 by PnL** — roughly
-  60× overrepresented. (Correlation; the discount likely follows size rather than
+- **Discounted accounts are 0.5% of wallets and 40% of the top 10 by PnL** — roughly
+  80× overrepresented. (Correlation; the discount likely follows size rather than
   causing profitability.)
 - **Spot pricing is regressive.** Trades under $5 pay a median **82%** in fees against
   the advertised 0.50%, because of the flat minimum. 53% of spot volume is discounted,
