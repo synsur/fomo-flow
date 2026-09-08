@@ -24,8 +24,9 @@ roughly three quarters of it with no referrer attached** (spot ≈ $3.7M/yr from
 sampled; perps ≈ $5.4M/yr from $447K in the last 30 days).
 
 **Assets in hand:** six ingest/analysis scripts over public data only; seven charts in
-`content/`; a README that is itself the credibility anchor; the `@profphet` X account with
-a defined voice; a working spot-trade parser that can run live.
+`content/`; a README that is itself the credibility anchor; the `@profphet` X account, aimed
+at crypto twitter and money twitter, with a defined voice; a working spot-trade parser that
+can run live.
 
 ## 1. Thesis
 
@@ -107,20 +108,52 @@ Done when: the channel has posted unattended for 7 days without a duplicate or a
 
 ### B. Content (`@profphet`) — from week 1, ongoing
 
-One original measurement per week, one derived post most days from the digest. Every
-piece ends on a stealable line and carries the link. Voice rules are in memory; the short
-version is lowercase, trader who checks things, never analyst register, never pre-hedge.
+`@profphet` is a crypto-twitter / money-twitter account, not a FOMO account. FOMO is its
+first data series. The account's promise is the voice memory in one line: a trader who
+checks things, with receipts from public on-chain data. Everything FOMO-specific is
+published as an instance of a format that travels — what an app costs you, who actually
+wins, what the crowd does next — so the audience compounds even if FOMO does not.
 
-Backlog, in publish order:
+**What the audience changes.** CT and money twitter care about two questions: am I
+getting robbed, and who is actually winning. Both are universal, so the universal pieces
+lead and the FOMO-only pieces follow. The same-order-book comparison already covers every
+Hyperliquid front-end, and `builders_compare.py` makes "what [app] costs you" a repeatable
+series across venues — how the account grows past one app while the referral funnel stays
+where the referral pays.
 
-1. **Same order book, up to 5× the price** — `builders_compare.py` and chart 09 are in
-   flight; finish and ship first. It reaches Hyperliquid natives, who trade size.
-2. **You are not losing to the market, you are losing to the toll** — chart 01.
-3. **The crowd chases** — the Phase 4 finding. Pairs naturally with the feed launch.
-4. **The fee discount is a favour, not a tier** — chart 08.
-5. **Trades under $5 pay 82% in fees** — the regressive spot pricing.
-6. **Winners and losers are the same person** — behavioural identity finding.
+Cadence: one original measurement a week, one derived post most days from the digest (A4).
+Every piece ends on a stealable line and carries the link. Voice rules are in memory; the
+short version is lowercase, a trader who checks things, never analyst register, never
+pre-hedge.
+
+**Account mechanics, week 1:**
+
+- Bio carries the referral link with a one-word disclosure. Pinned post is the toll piece
+  with its chart, because it travels furthest.
+- Record the baseline in the scorecard: followers, average impressions on the last ten
+  posts. Growth gets measured from a number, not a feeling. (Assumption until recorded:
+  cold start. The gates in §4 don't depend on follower count; the X-automation decision
+  does.)
+- Quote-post real traders' lines with the data. Crypto X quotes lines, not findings; this
+  is where a small account gets seen.
+- Charts are the hook. Regenerate from the current database before every post.
+
+Backlog, in publish order — universal first, FOMO-only last:
+
+1. **Same order book, up to 5× the price** — `builders_compare.py` and chart 09 are done;
+   ship first. Reaches Hyperliquid natives, who trade size, and travels across CT.
+2. **You are not losing to the market, you are losing to the toll** — chart 01. The pinned
+   piece.
+3. **The crowd chases** — the Phase 4 finding. Pairs with the feed launch; universal degen
+   behaviour.
+4. **Winners and losers are the same person** — the behavioural identity finding.
+   Money-twitter bait: it is variance.
+5. **Trades under $5 pay 82% in fees** — the regressive spot pricing. Travels to the fee
+   discourse on money twitter.
+6. **The fee discount is a favour, not a tier** — chart 08. FOMO-specific; niche; last.
 7. **Weekly FOMO report** — a fixed format from A4 numbers, every Monday.
+8. **Next series** — the same measurements for the next app, straight from
+   `builders_compare.py`.
 
 Rule: no piece ships without its chart regenerated from the current database.
 
@@ -128,8 +161,9 @@ Rule: no piece ships without its chart regenerated from the current database.
 
 - Get the referral link and read the actual terms (§7 has what to verify).
 - One short link per channel (feed, X, README) so attribution is visible.
-- Weekly scorecard, one file in the repo: channel subscribers, link clicks, referred
-  signups, referred fee volume, payout received. Fee volume is the number that matters.
+- Weekly scorecard, one file in the repo: channel subscribers, X followers and impressions
+  on data posts, link clicks per channel, referred signups, referred fee volume, payout
+  received. Fee volume is the number that matters.
 
 ### D. Data platform hygiene — week 1, then monthly
 
