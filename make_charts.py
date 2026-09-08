@@ -23,6 +23,7 @@ from matplotlib.patches import FancyBboxPatch
 
 DB = "fomo_fomo.db"
 DB_SPOT = "fomo_spot.db"
+DB_BUILDERS = "builders.db"
 OUT = "content"
 HL_FEES = {(1, 1): 9.0, (1, 0): 4.5, (0, 1): 3.0, (0, 0): 1.5}   # (taker, hip3) bps
 
@@ -294,6 +295,53 @@ def chart_feecurve(mode):
     plt.close(fig)
 
 
+# --------------------------------------------------------------- chart 5
+def chart_builders(mode):
+    """What each Hyperliquid front-end charges on top of the same order book."""
+    t = THEME[mode]
+    con = sqlite3.connect(DB_BUILDERS)
+    rows = []
+    for b, f, no, bf in con.execute("""SELECT builder, SUM(fills), SUM(notional),
+            SUM(builder_fee) FROM agg GROUP BY builder"""):
+        n = con.execute("SELECT COUNT(*) FROM agg WHERE builder=? AND pnl!=0", (b,)).fetchone()[0]
+        if n < 200 or no < 5e7:            # drop toy venues; they distort the scale
+            continue
+        rows.append((b.replace("-perps", "").replace("-app", "").replace("-xyz", "").replace("-social-trading", ""),
+                     bf / no * 1e4))
+    con.close()
+    rows.sort(key=lambda r: r[1])
+    labs = [r[0] for r in rows]
+    vals = [r[1] for r in rows]
+
+    fig, ax = plt.subplots(figsize=(11, 6.4), dpi=190)
+    fig.subplots_adjust(left=.175, right=.945, top=.70, bottom=.14)
+    base(fig, ax, t, "Same order book. Up to 5x the price.",
+         "What each Hyperliquid front-end charges on top of the exchange's own fee.")
+
+    for i, (lab, v) in enumerate(zip(labs, vals)):
+        hot = "fomo" in lab
+        ax.barh(i, v, height=0.55, zorder=3,
+                color=t["cat"][1] if hot else t["cat"][0])
+        ax.text(v + max(vals) * 0.018, i, f"{v:.2f}", va="center",
+                fontsize=11.5, fontweight="600" if hot else "400",
+                color=t["ink"] if hot else t["ink2"])
+    ax.set_yticks(range(len(labs)))
+    ax.set_yticklabels(labs, fontsize=12,
+                       color=t["ink"])
+    for lab, tick in zip(labs, ax.get_yticklabels()):
+        if "fomo" in lab:
+            tick.set_fontweight("600")
+    ax.set_xlim(0, max(vals) * 1.16)
+    ax.set_xlabel("builder fee, basis points", color=t["ink3"], fontsize=11, labelpad=10)
+    ax.xaxis.grid(True, color=t["grid"], lw=1, zorder=0)
+    ax.set_axisbelow(True)
+    ax.tick_params(axis="x", labelsize=10.5)
+    footer(fig, t, "14 days to 2026-08-29 · Hyperliquid builder-fills data · "
+                   "venues over $50M volume")
+    fig.savefig(f"{OUT}/09-builders-{mode}.png", facecolor=t["surface"])
+    plt.close(fig)
+
+
 if __name__ == "__main__":
     os.makedirs(OUT, exist_ok=True)
     con = sqlite3.connect(DB)
@@ -302,6 +350,7 @@ if __name__ == "__main__":
         chart_skew(con, mode)
         chart_experience(con, mode)
         chart_feecurve(mode)
+        chart_builders(mode)
         print(f"  {mode}: 3 charts")
     con.close()
     print(f"\nwrote {len(os.listdir(OUT))} files to {OUT}/")
