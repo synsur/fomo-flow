@@ -26,6 +26,13 @@ Solana spot trades**:
 - **Spot pricing is regressive.** Trades under $5 pay a median **82%** in fees against
   the advertised 0.50%, because of the flat minimum. 53% of spot volume is discounted,
   blending to 0.379% against a 0.500% headline.
+- **The crowd chases; its flow is not a signal.** When 8+ wallets pile into a perp
+  in one 15-minute bin, price has already run **+9.2% over the prior 24h** (84% of
+  episodes). After the burst, the coin's excess return over the rest of the market is
+  **−17 / +4 / +9 / −3 bp** at 15m / 1h / 4h / 24h. On spot the median buy follows a
+  +7.7% four-hour run and is **−22% a day later** (24% of buys above water). A
+  "trending on FOMO" alert is a lagging indicator; the biggest bursts are followed by
+  *negative* excess returns.
 - **Winners and losers are behaviourally identical** at the median: 2 active days, 2
   markets, 100% taker, near-identical fill sizes. There is no visible edge — it is
   variance.
@@ -50,6 +57,8 @@ python3 fomo_tier.py --roster # is the fee discount earned?
 
 python3 fomo_spot.py --limit 9000   # sample Solana spot trades  (~40 min)
 python3 fomo_history.py             # per-wallet rate histories
+python3 fomo_timing.py --fetch      # candles for the timing test  (~20 min, throttled)
+python3 fomo_timing.py              # does the crowd lead price, or chase it?
 python3 make_charts.py              # regenerate content/*.png
 ```
 
@@ -107,6 +116,8 @@ python3 fomo_ingest.py --refresh 2026-08-16
 python3 fomo_tier.py                    # the fee-tier investigation
 python3 fomo_tier.py --roster           # + list every discounted wallet
 python3 fomo_outcomes.py                # trader outcomes, retention, skew persistence
+python3 fomo_timing.py --fetch          # Hyperliquid + GeckoTerminal candles → fomo_candles.db
+python3 fomo_timing.py [--mult 6]       # flow-timing test; --mult/--min-wallets set the spike
 ```
 
 Ingest is idempotent and resumable — days already stored are skipped, `--refresh`
@@ -258,9 +269,94 @@ alone.
 pricing. The per-account finding rests on the 87% with stable rates; exclude the
 high-frequency tail before quoting it.
 
+## Phase 4: does the crowd lead price, or chase it? — it chases
+
+The obvious product for a social trading app is an alert: watch for a burst of FOMO users
+piling into an asset, get pinged, buy before the climax. That only pays if the burst
+precedes the move. `fomo_timing.py` tests it on the builder fills, priced with
+Hyperliquid's own candles.
+
+A **spike** is a bin where at least 8 distinct wallets open a long at market and that
+count is at least 4× the coin's trailing-7-day mean per bin — wallet count, not notional,
+so one whale is not a trend. Consecutive spike bins are one episode; the alert fires at
+the close of the first, and the follower buys at the next bin's open. 15-minute bins run
+on the 42 days Hyperliquid retains 15m candles (07-17 → 08-29, 40 coins); 1-hour bins
+cover the whole corpus.
+
+**The crowd arrives after the move.** 15-minute test, 130 episodes:
+
+| | mean | episodes up |
+|---|---|---|
+| 24h *into* the spike | **+9.24%** | 84% |
+| 1h into the spike | +1.03% | 64% |
+| the spike bin itself | +1.30% | 69% |
+| unconditional 24h drift, every bin | +0.79% | 55% |
+
+Price has run about twelve times the market's normal 24h drift before the wallets show
+up. The lead/lag correlations say the same: a bin's long-opener count correlates with
+the *previous* bin's return 3–8× more strongly than with the next one (BTC 0.153 vs
+0.061, HYPE 0.265 vs 0.034, ETH 0.147 vs 0.033).
+
+**After the alert, nothing.** The follower's raw returns are −17 bp at 15 minutes, +12
+at 1h, +35 at 4h, +197 at 24h. The 24h number looks like something until two controls
+are applied:
+
+- *Same-moment control* — the spike coin's return minus every other coin's return at
+  that instant: **−17 / +4 / +9 / −3 bp** at 15m / 1h / 4h / 24h. The 24h gain was the
+  whole market moving that day, not the coin the crowd picked.
+- *Day clustering* — the 130 episodes fall on 27 days, 25 of them on one day. Averaged
+  per day, the 24h return is +58 bp at t = 0.3.
+
+Net of the round trip (HL taker + FOMO markup, ~20 bp) the follower is **−36 bp at 15
+minutes with a 29% hit rate**, −8 at 1h. The full-history 1-hour test agrees: 195
+episodes on 49 days, +7.9% into the spike, then −13 / +5 / +211 bp raw and
+−21 / −16 / +78 bp against other coins, |t| ≤ 1.2.
+
+**Bigger bursts are worse.** Loosening the definition to 5 wallets and 3× finds 619
+episodes with a small +96 bp 24h excess (t 3.7, day-level t 2.1) — a diffuse
+attention/momentum drift in a bull window. Tightening it to the bursts an alert would
+actually fire on (≥ 15 wallets) leaves 31 episodes with **−312 bp** excess at 24h
+(t −2.2). A real signal strengthens as the burst grows; this one inverts.
+
+Short-openers are the mirror image: their spikes also follow rallies (+7.6% prior 24h),
+then bleed −34 / −25 / −28 bp and are wrong by +136 bp at 24h. FOMO activity is triggered
+by *movement*, in both directions, with no directional content. Per coin the follower's
+24h result runs from +766 bp (XRP, 9 episodes) to −782 bp (TRUMP, 5) — the sign is the
+coin's trend that month, not the flow.
+
+### Spot: the memecoin crowd, one day
+
+The Solana fee-wallet sample is a single day (08-17 → 08-18), priced with GeckoTerminal
+candles for the 29 mints with ≥ 15 distinct buyers — 1,656 buys. Fresh launches make
+means meaningless (a coin three hours old is up thousands of percent "over 4h"), so
+medians and hit rates carry the finding.
+
+| median return | into the buy | after the buy |
+|---|---|---|
+| 15m | +1.0% (55% of buys up) | +0.03% (51% up) |
+| 1h | +3.0% (58%) | −0.75% (45%) |
+| 4h | **+7.7%** (62%) | **−4.8%** (39%) |
+| 24h | — | **−22.3%** (24% up) |
+
+The same mints' unconditional bins over the same window run −1.5% into, and −2.6% /
+−18.4% after at 4h / 24h with 30% up at 24h. So a FOMO buy is not merely "memecoins
+decay": it sits at a worse-than-typical point on the curve, after a run and before a
+steeper drop. Buys of $500+ are no better (−22.3% at 24h, 25% up), and the FOMO round
+trip costs another 1.00% before slippage.
+
+The 22 spike episodes (≥ 5 wallets in a 15-minute bin, 3× the mint's mean) are the
+alert-bot case, and they are the worst rows on the page: median **+8.7% in the 15
+minutes before the alert** (70% up), then **−3.6% / −3.6% / −15.3% / −23.9%** at
+15m / 1h / 4h / 24h for the follower, 32–41% hit rate. One day and 22 episodes is
+thin, but there is no horizon and no threshold at which it points the other way.
+
+**What this rules out:** a "trending on FOMO → buy" alert as a trading signal, at any
+horizon from 15 minutes to a day, on either venue. The on-chain flow tells you what the
+crowd just did, which price already told you.
+
 ## Next
 
-- **Phase 4** — live poller over `clearinghouseState` for the rolling roster. Lower priority
+- **Phase 5** — live poller over `clearinghouseState` for the rolling roster. Lower priority
   now that cohort skew is ruled out; its main output needs rethinking.
 
 ## Sources
