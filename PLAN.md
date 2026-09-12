@@ -126,6 +126,14 @@ Every piece ends on a stealable line and carries the link. Voice rules are in me
 short version is lowercase, a trader who checks things, never analyst register, never
 pre-hedge.
 
+**Mix.** Data posts alone read as a bot. The account also posts about life, money, and
+what success actually looks like from inside a trading screen — the same person, the same
+voice. Rules: specificity over aphorism (a throwaway detail beats a lesson); no grindset
+boilerplate, which is the most automated genre on money twitter; never a returns flex that
+the on-chain data would contradict. The ratio and the formats get set from ten reference
+accounts the user is supplying (decision 2026-09-12); until then, roughly two data posts
+to one life post is the working assumption.
+
 **Account mechanics, week 1:**
 
 - Bio carries the referral link with a one-word disclosure. Pinned post is the toll piece
