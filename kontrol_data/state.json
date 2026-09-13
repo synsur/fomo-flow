@@ -1,0 +1,80 @@
+{
+  "answers": {},
+  "items": {},
+  "onboarded_at": "2026-09-13",
+  "queue": [
+    {
+      "delegable": false,
+      "evidence": [],
+      "expires_at": null,
+      "gate": "confirm-intake",
+      "id": "q_0001",
+      "if_unanswered": "wait",
+      "instructions": "decide <id> confirm, or correct --note '...'",
+      "kind": "decision",
+      "milestone": "confirm-intake",
+      "options": [
+        "confirm",
+        "correct"
+      ],
+      "raised_at": "2026-09-13T23:44:56+00:00",
+      "summary": "Intake for @profphet was not answered; kontrol assumed from PLAN.md: nothing paused, nothing running, no records to freeze, everything delegable except spend and referral terms. Confirm or correct."
+    },
+    {
+      "delegable": false,
+      "evidence": [
+        "PLAN.md"
+      ],
+      "expires_at": null,
+      "gate": "referral-terms",
+      "id": "q_0002",
+      "if_unanswered": "wait",
+      "instructions": "",
+      "kind": "manual-step",
+      "milestone": "referral-terms",
+      "options": [
+        "done",
+        "defer"
+      ],
+      "raised_at": "2026-09-13T23:44:56+00:00",
+      "summary": "Verify the fomo.family referral programme: rate, spot vs perps, recurring or time-boxed, attribution, payout asset and cadence, and whether promoting with a link or publishing on-chain data about users is restricted (PLAN.md \u00a77). Then put the link in .env as REFERRAL_LINK."
+    },
+    {
+      "delegable": false,
+      "evidence": [
+        "PLAN.md"
+      ],
+      "expires_at": null,
+      "gate": "telegram-channel",
+      "id": "q_0003",
+      "if_unanswered": "wait",
+      "instructions": "",
+      "kind": "manual-step",
+      "milestone": "telegram-channel",
+      "options": [
+        "done",
+        "defer"
+      ],
+      "raised_at": "2026-09-13T23:44:56+00:00",
+      "summary": "Create the Telegram channel for the feed and a bot with posting rights; put the token in .env as TELEGRAM_BOT_TOKEN."
+    },
+    {
+      "delegable": false,
+      "evidence": [],
+      "expires_at": null,
+      "gate": "reference-accounts",
+      "id": "q_0004",
+      "if_unanswered": "wait",
+      "instructions": "decide <id> set --note '@a, @b, ...'",
+      "kind": "decision",
+      "milestone": "reference-accounts",
+      "options": [
+        "set"
+      ],
+      "raised_at": "2026-09-13T23:44:56+00:00",
+      "summary": "The ten reference accounts that set the post mix and formats for @profphet (decision 2026-09-12 in PLAN.md). Reply with handles."
+    }
+  ],
+  "raised": true,
+  "seq": 4
+}

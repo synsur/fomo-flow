@@ -1,0 +1,97 @@
+contract: 1
+name: profphet
+path: /Users/cynful/fohomo
+description: "@profphet on X: crypto and money twitter, receipts from public on-chain data. fomo.family is the first data series; a live Telegram feed and referral funnel are planned (PLAN.md)."
+timezone: America/Toronto
+shapes: [feed, social]
+
+commands:
+  status: "uv run --no-project --python 3.12 python kontrol_adapter.py status"
+  run:    "uv run --no-project --python 3.12 python kontrol_adapter.py run"
+  queue:  "uv run --no-project --python 3.12 python kontrol_adapter.py queue"
+  decide: "uv run --no-project --python 3.12 python kontrol_adapter.py decide"
+  learn:  "uv run --no-project --python 3.12 python kontrol_adapter.py learn"
+
+hosts:
+  run: pc
+
+jobs:
+  - id: ingest
+    schedule: "0 6 * * *"
+    command: "python3 fomo_ingest.py"
+    host: pc
+    max_silence: 30h
+    expected_runtime: 30m
+  - id: feed
+    schedule: process              # the Telegram poller (PLAN.md A1-A3); not built yet
+    command: "python3 fomo_feed.py"
+    host: pc
+    max_silence: 10m
+    expected_runtime: 0s
+
+accounts:
+  - id: x
+    platform: x
+    handle: "@profphet"
+    posting: manual
+    replies: off
+    interactions: off
+    limits: { posts_per_day: 3 }
+    disclosures: [referral]
+  - id: telegram
+    platform: telegram
+    handle: "(channel pending)"
+    posting: api
+    replies: off
+    interactions: off
+    limits: { posts_per_day: 48 }
+    disclosures: [referral]
+
+gates:
+  - id: confirm-intake
+    kind: decision
+    delegable: false
+    if_unanswered: wait
+  - id: referral-terms
+    kind: manual-step
+    delegable: false
+    reason: "reading fomo.family's referral terms needs the operator's account"
+    if_unanswered: wait
+  - id: telegram-channel
+    kind: manual-step
+    delegable: false
+    reason: "creating the channel and bot needs the operator's Telegram account"
+    if_unanswered: wait
+  - id: reference-accounts
+    kind: decision
+    delegable: false
+    if_unanswered: wait
+  - id: approve-post
+    kind: approve-item
+    delegable: true
+    if_unanswered: wait
+  - id: post
+    kind: manual-step
+    delegable: true
+    if_unanswered: wait
+
+cadence:
+  target_per_week: 7
+  buffer_min_days: 3
+
+grounding: required
+
+budget:
+  monthly_usd: 10
+
+secrets: [TELEGRAM_BOT_TOKEN, REFERRAL_LINK]
+
+research:
+  - id: x-posting-method
+    question: "Post and read analytics on X: official API tier, browser automation, or manual? Shared decision with Debate Receipts."
+    cadence: quarterly
+    last_answered: null
+  - id: fee-wallet-still-valid
+    question: "Does the FOMO fee wallet still match the DefiLlama adapter, and does the referral programme still exist on the same terms?"
+    cadence: monthly
+    last_answered: 2026-09-07
