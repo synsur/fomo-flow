@@ -1,5 +1,7 @@
 {
-  "answers": {},
+  "answers": {
+    "reference-accounts": "@hildobby, @0xngmi, @tomwanhh, @DefiIgnas, @xulian_hl, @CL207, @george__mack, @SahilBloom, @thejustinwelsh, @ShaanVP"
+  },
   "items": {},
   "onboarded_at": "2026-09-13",
   "queue": [
@@ -57,22 +59,6 @@
       ],
       "raised_at": "2026-09-13T23:44:56+00:00",
       "summary": "Create the Telegram channel for the feed and a bot with posting rights; put the token in .env as TELEGRAM_BOT_TOKEN."
-    },
-    {
-      "delegable": false,
-      "evidence": [],
-      "expires_at": null,
-      "gate": "reference-accounts",
-      "id": "q_0004",
-      "if_unanswered": "wait",
-      "instructions": "decide <id> set --note '@a, @b, ...'",
-      "kind": "decision",
-      "milestone": "reference-accounts",
-      "options": [
-        "set"
-      ],
-      "raised_at": "2026-09-13T23:44:56+00:00",
-      "summary": "The ten reference accounts that set the post mix and formats for @profphet (decision 2026-09-12 in PLAN.md). Reply with handles."
     }
   ],
   "raised": true,

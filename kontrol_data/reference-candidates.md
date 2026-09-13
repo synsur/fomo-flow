@@ -27,3 +27,42 @@ Checked live on X from the operator's browser, 2026-09-13 (follower counts and t
 ## Suggested ten (operator to confirm or replace)
 
 hildobby, 0xngmi, tomwanhh, DefiIgnas, xulian_hl (audience reference), CL207, gainzy222, HsakaTrades, plus two from "what is missing".
+
+## Money-twitter life-advice batch (checked live 2026-09-13, second pass)
+
+The operator asked for accounts that post life advice. The voice rules ban grindset boilerplate and aphorism-only feeds, which is most of this genre, so the test was: do recent posts carry a specific detail or a number, or only a lesson?
+
+| Handle | Followers | Recent posts | Verdict |
+|---|---|---|---|
+| @george__mack | 310.6K | one idea worked hard (the "high agency" essay), specific observations, receipts on what a post did ("hundreds of messages per week") | **pick** — ideas with evidence, not slogans |
+| @SahilBloom | 1.1M | life posts with numbers ("DNF at my first fall marathon: 21.45 miles, 6:24 pace"), reliability over brilliance | **pick** — the specificity habit in life posts |
+| @thejustinwelsh | 589K | "$10M revenue, 2,119 days, zero ads, ~89% margin"; some comfort-zone boilerplate | **pick** — receipts-with-numbers as the money format; ignore the boilerplate posts |
+| @ShaanVP | 475.5K | short takes, "semi-controversial things I believe", storytelling in threads | **pick** — the one-line take with a story behind it |
+| @AlexHormozi | 1M | "wishing death and destruction to all the obstacles", kidnapped-loved-ones hypotheticals | no — grindset by definition |
+| @thedankoe | 1M | "you need to be delusional to be successful" | no — self-help register |
+| @codie_sanchez | 713.8K | "Speed > everything", "if you're so smart why aren't you rich" | no — hustle aphorism |
+| @dickiebush | 444.7K | "100% responsibility for every outcome", side-hustle sermons | no — boilerplate |
+| @BowTiedBull | 213.1K | "extreme things for extreme results", paid-newsletter funnel | no — the genre the plan warns against |
+| @naval | 4M | aphorisms and AI liability takes | no — aphorism is the excluded form |
+| @Nicolascole77 | 227.1K | product launches, personal news | weak |
+| @wiz_of_ecom | — | account does not exist | — |
+
+## The ten (decided by kontrol, 2026-09-13, per operator delegation)
+
+Six data-and-crypto, four life-and-money, matching the plan's two-to-one mix.
+
+| # | Handle | What @profphet takes from it |
+|---|---|---|
+| 1 | @hildobby | the format: one measurement, one number, one line, lowercase, no hedge |
+| 2 | @0xngmi | the stance: would rather be right than make money; explain why the reported number is wrong |
+| 3 | @tomwanhh | a small data account that grows on original ecosystem measurements |
+| 4 | @DefiIgnas | the fee-and-incentive lens ("this meta runs on trading fees") applied to every app |
+| 5 | @xulian_hl | the Hyperliquid-native audience and builder-code mechanics; reference, not voice |
+| 6 | @CL207 | life from inside the trading screen, lowercase, unhurried, zero grindset |
+| 7 | @george__mack | one idea worked hard with evidence, instead of ten slogans |
+| 8 | @SahilBloom | numbers inside life posts: the specificity habit |
+| 9 | @thejustinwelsh | money receipts with figures, dates, and margins |
+| 10 | @ShaanVP | the one-line take that has a story behind it |
+
+Tone references kept on the bench (not in the ten): @gainzy222, @HsakaTrades, @DonAlt.
+Still worth adding by hand when found: a Hyperliquid-native trader who posts fills and mistakes in the open.
