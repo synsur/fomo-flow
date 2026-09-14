@@ -19,7 +19,7 @@ hosts:
 jobs:
   - id: ingest
     schedule: "0 6 * * *"
-    command: "python3 fomo_ingest.py"
+    command: "uv run --no-project --python 3.12 --with lz4 python fomo_ingest.py"   # lz4 decodes the daily .csv.lz4 files; the PC has no system lz4
     host: pc
     max_silence: 30h
     expected_runtime: 30m
