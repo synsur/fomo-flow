@@ -1,5 +1,6 @@
 contract: 1
 name: profphet
+display_name: "@profphet"
 path: /Users/cynful/fohomo
 description: "@profphet on X: crypto and money twitter, receipts from public on-chain data. fomo.family is the first data series; a live Telegram feed and referral funnel are planned (PLAN.md)."
 timezone: America/Toronto
@@ -49,20 +50,24 @@ accounts:
 
 gates:
   - id: confirm-intake
+    lane: setup
     kind: decision
     delegable: false
     if_unanswered: wait
   - id: referral-terms
+    lane: setup
     kind: manual-step
     delegable: false
     reason: "reading fomo.family's referral terms needs the operator's account"
     if_unanswered: wait
   - id: telegram-channel
+    lane: setup
     kind: manual-step
     delegable: false
     reason: "creating the channel and bot needs the operator's Telegram account"
     if_unanswered: wait
   - id: reference-accounts
+    lane: setup
     kind: decision
     delegable: false
     if_unanswered: wait
@@ -84,7 +89,9 @@ grounding: required
 budget:
   monthly_usd: 10
 
-secrets: [TELEGRAM_BOT_TOKEN, REFERRAL_LINK]
+secrets:
+  TELEGRAM_BOT_TOKEN: telegram-channel
+  REFERRAL_LINK: referral-terms
 
 research:
   - id: x-posting-method

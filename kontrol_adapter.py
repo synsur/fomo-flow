@@ -74,13 +74,32 @@ def status(s):
         "accounts": [{"id": "x", "handle": "@profphet", "last_post_at": None, "followers": None, "pending_replies": None},
                      {"id": "telegram", "handle": s.get("answers", {}).get("telegram-channel") or "(pending)", "last_post_at": None, "followers": None, "pending_replies": None}],
         "buffer_days": 0.0, "buffer_items": 0, "last_published_at": None, "cadence_7d": 0, "on_track": None,
-        "cost_30d_usd": 0.0,
+        "cost_30d_usd": 0.0, "streak_note": "not started",
         "notes": ["feed process not built (PLAN.md A1-A5)", "no X posts recorded; baseline not captured"],
     }, 2 if s["queue"] else 0)
 
 
+def enrich(q):
+    """Card fields (CONTRACT 7.3a)."""
+    gate = q.get("gate")
+    if gate == "confirm-intake":
+        q.update({"title": "Confirm how @profphet was set up",
+                  "why": "You didn't answer its intake, so kontrol assumed from PLAN.md: nothing paused, nothing running yet, "
+                         "everything delegable except spend and referral terms.",
+                  "ask": {"choice": "correct", "prompt": "What should change?"}})
+    elif gate == "referral-terms":
+        q.update({"title": "Check the fomo.family referral terms", "minutes": 10,
+                  "how": "In the app: the referral rate, whether it covers spot and perps, how long it lasts, and whether promoting "
+                         "with a link is allowed. Then add the link to the project's .env on the PC as REFERRAL_LINK."})
+    elif gate == "telegram-channel":
+        q.update({"title": "Create @profphet's Telegram channel and bot", "minutes": 5,
+                  "how": "In Telegram: create the channel, create a bot with @BotFather, make the bot an admin of the channel, "
+                         "then add its token to the project's .env on the PC as TELEGRAM_BOT_TOKEN."})
+    return q
+
+
 def queue(s):
-    emit(s["queue"], 2 if s["queue"] else 0)
+    emit([enrich(dict(q)) for q in s["queue"]], 2 if s["queue"] else 0)
 
 
 def run(s, live, action):
