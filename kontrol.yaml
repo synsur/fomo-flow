@@ -16,19 +16,14 @@ commands:
 hosts:
   run: pc
 
-jobs:
+jobs:                             # the Telegram feed poller (PLAN.md A1-A3) is declared here once it exists;
+                                  # declaring an unbuilt job makes "never ran" meaningless (kontrol D-012)
   - id: ingest
     schedule: "0 6 * * *"
     command: "uv run --no-project --python 3.12 --with lz4 python fomo_ingest.py"   # lz4 decodes the daily .csv.lz4 files; the PC has no system lz4
     host: pc
     max_silence: 30h
     expected_runtime: 30m
-  - id: feed
-    schedule: process              # the Telegram poller (PLAN.md A1-A3); not built yet
-    command: "python3 fomo_feed.py"
-    host: pc
-    max_silence: 10m
-    expected_runtime: 0s
 
 accounts:
   - id: x
