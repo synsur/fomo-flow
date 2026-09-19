@@ -70,10 +70,12 @@ def holds():
 def status(s):
     emit({
         "data": "unknown", "reconciled_at": None, "needs_human": len(s["queue"]),
-        "alive": False, "last_heartbeat": None, "emitted_24h": 0, "dead_man_armed": False, "limit_headroom": None,
+        # `alive` is observed: the feed process is not running. The counts below it are simply unknown.
+        "alive": False, "last_heartbeat": None, "emitted_24h": None, "dead_man_armed": False, "limit_headroom": None,
         "accounts": [{"id": "x", "handle": "@profphet", "last_post_at": None, "followers": None, "pending_replies": None},
                      {"id": "telegram", "handle": s.get("answers", {}).get("telegram-channel") or "(pending)", "last_post_at": None, "followers": None, "pending_replies": None}],
-        "buffer_days": 0.0, "buffer_items": 0, "last_published_at": None, "cadence_7d": 0, "on_track": None,
+        # Nothing has been built or posted yet, so these are unknown, not zero (CONTRACT §7.1, kontrol D-026).
+        "buffer_days": None, "buffer_items": None, "last_published_at": None, "cadence_7d": None, "on_track": None,
         "cost_30d_usd": 0.0, "streak_note": "not started",
         "notes": ["feed process not built (PLAN.md A1-A5)", "no X posts recorded; baseline not captured"],
     }, 2 if s["queue"] else 0)
