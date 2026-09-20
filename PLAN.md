@@ -127,9 +127,14 @@ short version is lowercase, a trader who checks things, never analyst register, 
 pre-hedge.
 
 **Mix.** Data posts alone read as a bot, so the account also posts about life, money and
-what success looks like from inside a trading screen — same person, same voice. The
-reference is `@josbjohnson` (read 2026-09-20: 59.7K followers on ~1.3 text-only posts a
-day). What transfers is the *mechanics*, not the subject:
+what success looks like from inside a trading screen — same person, same voice. Two
+reference sets. For the data side and the blended voice, the ten kontrol decided on
+2026-09-13 (its candidate note is local, under `kontrol_data/`): `@hildobby`, `@0xngmi`,
+`@tomwanhh`, `@DefiIgnas`, `@xulian_hl`, `@CL207`, `@george__mack`, `@SahilBloom`,
+`@thejustinwelsh`, `@ShaanVP` — six data-and-crypto, four life-and-money, with `@CL207` the
+closest model for life from inside the screen. For the *mechanics* of the life posts, the
+account the user picked on 2026-09-16: `@josbjohnson` (read 2026-09-20: 59.7K followers on
+~1.3 text-only posts a day). What transfers from him is the mechanics, not the subject:
 
 - Three formats, in this proportion: the paragraph (3–6 sentences, second person, ends on
   a 2–5 word directive) about half; the punch (1–2 lines) a third; the first-person

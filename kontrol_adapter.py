@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""@profphet / fohomo: the contract's five calls. Shapes: feed + social. Nothing operates yet (PLAN.md).
+"""profphet (@profphetic) / fohomo: the contract's five calls. Shapes: feed + social. Nothing operates yet (PLAN.md).
 
 The first run surfaces the plan's own prerequisites as queue items. Records live under kontrol_data/.
 """
@@ -21,7 +21,7 @@ ONBOARDED = "2026-09-13"
 
 ITEMS = [
     {"id": "confirm-intake", "gate": "confirm-intake", "kind": "decision",
-     "summary": "Intake for @profphet was not answered; kontrol assumed from PLAN.md: nothing paused, nothing running, no records to freeze, everything delegable except spend and referral terms. Confirm or correct.",
+     "summary": "Intake for profphet (@profphetic) was not answered; kontrol assumed from PLAN.md: nothing paused, nothing running, no records to freeze, everything delegable except spend and referral terms. Confirm or correct.",
      "options": ["confirm", "correct"], "instructions": "decide <id> confirm, or correct --note '...'"},
     {"id": "referral-terms", "gate": "referral-terms", "kind": "manual-step",
      "summary": "Verify the fomo.family referral programme: rate, spot vs perps, recurring or time-boxed, attribution, payout asset and cadence, and whether promoting with a link or publishing on-chain data about users is restricted (PLAN.md §7). Then put the link in .env as REFERRAL_LINK.",
@@ -30,8 +30,8 @@ ITEMS = [
      "summary": "Create the Telegram channel for the feed and a bot with posting rights; put the token in .env as TELEGRAM_BOT_TOKEN.",
      "options": ["done", "defer"], "evidence": ["PLAN.md"]},
     {"id": "reference-accounts", "gate": "reference-accounts", "kind": "decision",
-     "summary": "The ten reference accounts that set the post mix and formats for @profphet (decision 2026-09-12 in PLAN.md). Reply with handles.",
-     "options": ["set"], "instructions": "decide <id> set --note '@a, @b, ...'"},
+     "summary": "Reference accounts that set the post mix and formats for profphet (PLAN.md 3B). The ten kontrol decided on 2026-09-13 stand for the data side and the blended voice; the operator added @josbjohnson on 2026-09-16 as the model for the life posts' mechanics. Reply with any change to the list.",
+     "options": ["set"], "instructions": "decide <id> set --note '@a, @b, ... (+@josbjohnson for life-post mechanics)'"},
 ]
 
 
@@ -72,7 +72,7 @@ def status(s):
         "data": "unknown", "reconciled_at": None, "needs_human": len(s["queue"]),
         # `alive` is observed: the feed process is not running. The counts below it are simply unknown.
         "alive": False, "last_heartbeat": None, "emitted_24h": None, "dead_man_armed": False, "limit_headroom": None,
-        "accounts": [{"id": "x", "handle": "@profphet", "last_post_at": None, "followers": None, "pending_replies": None},
+        "accounts": [{"id": "x", "handle": "@profphetic", "last_post_at": None, "followers": None, "pending_replies": None},
                      {"id": "telegram", "handle": s.get("answers", {}).get("telegram-channel") or "(pending)", "last_post_at": None, "followers": None, "pending_replies": None}],
         # Nothing has been built or posted yet, so these are unknown, not zero (CONTRACT §7.1, kontrol D-026).
         "buffer_days": None, "buffer_items": None, "last_published_at": None, "cadence_7d": None, "on_track": None,
@@ -85,7 +85,7 @@ def enrich(q):
     """Card fields (CONTRACT 7.3a)."""
     gate = q.get("gate")
     if gate == "confirm-intake":
-        q.update({"title": "Confirm how @profphet was set up",
+        q.update({"title": "Confirm how profphet (@profphetic) was set up",
                   "why": "You didn't answer its intake, so kontrol assumed from PLAN.md: nothing paused, nothing running yet, "
                          "everything delegable except spend and referral terms.",
                   "ask": {"choice": "correct", "prompt": "What should change?"}})
@@ -94,7 +94,7 @@ def enrich(q):
                   "how": "In the app: the referral rate, whether it covers spot and perps, how long it lasts, and whether promoting "
                          "with a link is allowed. Then add the link to the project's .env on the PC as REFERRAL_LINK."})
     elif gate == "telegram-channel":
-        q.update({"title": "Create @profphet's Telegram channel and bot", "minutes": 5,
+        q.update({"title": "Create profphet's Telegram channel and bot", "minutes": 5,
                   "how": "In Telegram: create the channel, create a bot with @BotFather, make the bot an admin of the channel, "
                          "then add its token to the project's .env on the PC as TELEGRAM_BOT_TOKEN."})
     return q
