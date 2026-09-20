@@ -122,17 +122,31 @@ series across venues — how the account grows past one app while the referral f
 where the referral pays.
 
 Cadence: one original measurement a week, one derived post most days from the digest (A4).
-Every piece ends on a stealable line and carries the link. Voice rules are in memory; the
+Every data piece ends on a stealable line and carries the link. Voice rules are in memory; the
 short version is lowercase, a trader who checks things, never analyst register, never
 pre-hedge.
 
-**Mix.** Data posts alone read as a bot. The account also posts about life, money, and
-what success actually looks like from inside a trading screen — the same person, the same
-voice. Rules: specificity over aphorism (a throwaway detail beats a lesson); no grindset
-boilerplate, which is the most automated genre on money twitter; never a returns flex that
-the on-chain data would contradict. The ratio and the formats get set from ten reference
-accounts the user is supplying (decision 2026-09-12); until then, roughly two data posts
-to one life post is the working assumption.
+**Mix.** Data posts alone read as a bot, so the account also posts about life, money and
+what success looks like from inside a trading screen — same person, same voice. The
+reference is `@josbjohnson` (read 2026-09-20: 59.7K followers on ~1.3 text-only posts a
+day). What transfers is the *mechanics*, not the subject:
+
+- Three formats, in this proportion: the paragraph (3–6 sentences, second person, ends on
+  a 2–5 word directive) about half; the punch (1–2 lines) a third; the first-person
+  confession ("the moment it flipped for me was…") the rest — the confession is what makes
+  it a person.
+- One idea per post. Lowercase, periods as beats, fragments. Zero links, hashtags, emojis,
+  threads or engagement questions in a life post; the sell lives in the bio and on the
+  data posts only. **Life posts never carry the referral link.**
+- Subjects that landed on the reference, translated: forgiving yourself after a loss (his
+  best post); a coined physical phrase the reader can steal; "it's supposed to be hard";
+  "it's supposed to be fun". Profphet's versions are about money, screens, variance and
+  red days — the data account's life posts are about what the data feels like.
+- What died on the reference and stays out: bullet lists of virtues, routine tips, and
+  abstract poetry with no image.
+- No grindset boilerplate and never a returns flex the on-chain data would contradict.
+- Ratio: start at one life post for every data post (the reference grows on life posts
+  alone), reviewed against impressions at the week-8 gate.
 
 **Account mechanics, week 1:**
 
