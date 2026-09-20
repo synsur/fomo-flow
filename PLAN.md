@@ -23,8 +23,8 @@ left is the thing every measurement pointed at: **the crowd pays about $9M a yea
 roughly three quarters of it with no referrer attached** (spot ≈ $3.7M/yr from $10.1K/day
 sampled; perps ≈ $5.4M/yr from $447K in the last 30 days).
 
-**Assets in hand:** six ingest/analysis scripts over public data only; seven charts in
-`content/`; a README that is itself the credibility anchor; the profphet X account (`@profphetic`, the bare name was taken), aimed
+**Assets in hand:** seven measurement scripts over public data only, plus the chart
+generator; five charts (light and dark) in `content/`; a README that is itself the credibility anchor; the profphet X account (`@profphetic`, the bare name was taken), aimed
 at crypto twitter and money twitter, with a defined voice; a working spot-trade parser that
 can run live.
 

@@ -33,6 +33,10 @@ Solana spot trades**:
   +7.7% four-hour run and is **−22% a day later** (24% of buys above water). A
   "trending on FOMO" alert is a lagging indicator; the biggest bursts are followed by
   *negative* excess returns.
+- **Same order book, up to 5× the price.** Eleven front-ends route into the same
+  Hyperliquid book and charge builder markups from **1.86 to 9.31 bp** on top of it. FOMO's
+  4.47 bp is mid-table, but the share of its traders who finish net positive (39%) is
+  third-lowest of the eleven.
 - **Winners and losers are behaviourally identical** at the median: 2 active days, 2
   markets, 100% taker, near-identical fill sizes. There is no visible edge — it is
   variance.
@@ -51,12 +55,13 @@ Python 3.9+. `pip install -r requirements.txt` (or just `brew install lz4` — t
 scripts need nothing else).
 
 ```bash
-python3 fomo_ingest.py        # backfill all perp fills          (~2 min, ~130 MB)
+python3 fomo_ingest.py        # backfill all perp fills          (~2 min, ~230 MB)
 python3 fomo_outcomes.py      # trader outcomes, retention, skew
 python3 fomo_tier.py --roster # is the fee discount earned?
 
 python3 fomo_spot.py --limit 9000   # sample Solana spot trades  (~40 min)
 python3 fomo_history.py             # per-wallet rate histories
+python3 builders_compare.py --days 14 # every Hyperliquid front-end side by side
 python3 fomo_timing.py --fetch      # candles for the timing test  (~20 min, throttled)
 python3 fomo_timing.py              # does the crowd lead price, or chase it?
 python3 make_charts.py              # regenerate content/*.png
@@ -118,13 +123,17 @@ python3 fomo_tier.py --roster           # + list every discounted wallet
 python3 fomo_outcomes.py                # trader outcomes, retention, skew persistence
 python3 fomo_timing.py --fetch          # Hyperliquid + GeckoTerminal candles → fomo_candles.db
 python3 fomo_timing.py [--mult 6]       # flow-timing test; --mult/--min-wallets set the spike
+python3 builders_compare.py --report    # what every Hyperliquid front-end charges (builders.db)
 ```
+
+`kontrol_adapter.py` is a queue adapter for the kontrol control plane that runs the plan;
+it is not part of the measurement pipeline.
 
 Ingest is idempotent and resumable — days already stored are skipped, `--refresh`
 re-pulls one. Missing days (no trades, or not yet published) are recorded, not retried.
 
-Corpus as of 2026-08-15: **433,811 fills · 11,584 wallets · 71 days · $896M notional**,
-about 60 MB of SQLite.
+Corpus as of 2026-08-27: **766,931 fills · 18,979 wallets · 83 days · $1.68B notional**,
+about 230 MB of SQLite.
 
 ## Finding: the discounted fee tier is granted, not earned
 
@@ -181,6 +190,44 @@ their skew** — HYPE goes +21.5% (Jul) to −10.1% (Aug), crude −14.1% to +1.
 The +61.5% XYZ100 skew that looked compelling in a 10-day window decays to
 +30.7% over the full history. Aggregate FOMO positioning is roughly balanced and
 unstable, so there is no durable one-sided imbalance to fade at cohort level.
+
+## Finding: same order book, up to 5× the price
+
+Hyperliquid publishes the same builder-fills CSV for *every* app that routes orders through
+it, so "what does this app cost you and how do its users do" can be asked of all of them at
+once. `builders_compare.py` streams two weeks of fills for every registered builder,
+aggregating per wallet without storing the raw rows. The table is the two weeks to
+2026-08-31, apps with at least 200 wallets that closed a position and $50M of notional:
+
+| app | volume | wallets | markup bp | net-positive wallets |
+|---|---|---|---|---|
+| metascalp | $201M | 646 | **1.86** | 63% |
+| rabby | $813M | 4,083 | 2.00 | 58% |
+| hyperdash | $245M | 669 | 2.22 | 47% |
+| based | $704M | 1,398 | 2.35 | 58% |
+| invo | $944M | 27,215 | 3.50 | 56% |
+| liquid | $225M | 1,346 | 3.70 | 40% |
+| **fomo** | **$991M** | **11,961** | **4.47** | **39%** |
+| phantom | $1,442M | 21,742 | 5.00 | 48% |
+| trasia | $129M | 583 | 5.00 | 6% |
+| trust wallet | $905M | 7,227 | 7.72 | 45% |
+| metamask | $980M | 6,834 | **9.31** | 51% |
+
+Markup is the builder fee only, on top of Hyperliquid's own venue fee, which is identical
+for everyone. Net-positive counts wallets that closed a position and finished ahead after
+both fees. Chart 09 draws the markup column.
+
+Two things are true at once. The price of the same order book varies **5×** across
+front-ends, and FOMO sits in the middle of that range, cheaper than Phantom, Trust and
+MetaMask. But the outcome column does not follow the price column: FOMO's traders finish
+net positive less often than every app except Trasia and Liquid, including apps that
+charge more. Whatever is costing FOMO's users, it is not only the markup — the crowd's
+behaviour (98% taker, chasing bursts, Phase 4 below) does the rest.
+
+*Window caveat:* in these two weeks FOMO's cohort made **+$1.97M** trading against
+**$904K** of fees, net positive. Over the full 83-day corpus the same cohort is net
+negative (above). Late August was a good fortnight for everyone; the ranking is the
+durable part, the signs are not.
 
 ## Phase 3: Solana spot — measured
 
@@ -356,8 +403,12 @@ crowd just did, which price already told you.
 
 ## Next
 
-- **Phase 5** — live poller over `clearinghouseState` for the rolling roster. Lower priority
-  now that cohort skew is ruled out; its main output needs rethinking.
+- The measurements are done for now; the plan that uses them is [`PLAN.md`](PLAN.md):
+  a live "what the crowd is buying" feed built from the spot fee-wallet flow (the poller
+  that was going to be Phase 5), original-data content, and a referral funnel, with
+  week-8 and week-12 gates.
+- Monthly re-run of every finding and chart. The corpus grew 60% in nine days once; a stale
+  number is the fastest way to lose the credibility the rest depends on.
 
 ## Sources
 

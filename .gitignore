@@ -1,4 +1,4 @@
-# Databases — regenerate with the ingest scripts (fomo_fomo.db is ~130 MB)
+# Databases — regenerate with the ingest scripts (fomo_fomo.db is ~230 MB)
 *.db
 *.db-journal
 
