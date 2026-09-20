@@ -24,7 +24,7 @@ roughly three quarters of it with no referrer attached** (spot ≈ $3.7M/yr from
 sampled; perps ≈ $5.4M/yr from $447K in the last 30 days).
 
 **Assets in hand:** six ingest/analysis scripts over public data only; seven charts in
-`content/`; a README that is itself the credibility anchor; the `@profphet` X account, aimed
+`content/`; a README that is itself the credibility anchor; the profphet X account (`@profphetic`, the bare name was taken), aimed
 at crypto twitter and money twitter, with a defined voice; a working spot-trade parser that
 can run live.
 
@@ -106,9 +106,9 @@ Never point anything at fomo.family itself.
 
 Done when: the channel has posted unattended for 7 days without a duplicate or a stall.
 
-### B. Content (`@profphet`) — from week 1, ongoing
+### B. Content (profphet, `@profphetic`) — from week 1, ongoing
 
-`@profphet` is a crypto-twitter / money-twitter account, not a FOMO account. FOMO is its
+profphet (`@profphetic`) is a crypto-twitter / money-twitter account, not a FOMO account. FOMO is its
 first data series. The account's promise is the voice memory in one line: a trader who
 checks things, with receipts from public on-chain data. Everything FOMO-specific is
 published as an instance of a format that travels — what an app costs you, who actually
