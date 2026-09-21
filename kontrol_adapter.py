@@ -225,9 +225,13 @@ def raise_pick_card(s, gates, actions, errors, live):
         raise_seed_card(s, gates, notes)
         return
     blocks, choices, labels = [], [], {}
+    templated = [o for o in opts if str(o.get("source", "")).startswith("template")]
     for n, o in enumerate(opts, 1):
         tag = o["headline"] if o["lane"] == "data" else o["format"]
-        blocks.append({"label": f"{n} · {o['lane']} · {tag}", "text": o["text"]})
+        # A template is a placeholder, not a post. Say so on the block the operator reads,
+        # not only on the approve card after they have already chosen it.
+        mark = " · placeholder" if str(o.get("source", "")).startswith("template") else ""
+        blocks.append({"label": f"{n} · {o['lane']} · {tag}{mark}", "text": o["text"]})
         choices.append(str(n))
         labels[str(n)] = str(n)
     choices.append("regenerate")
@@ -238,9 +242,13 @@ def raise_pick_card(s, gates, actions, errors, live):
         options=choices, labels=labels, copy=blocks, candidates=opts, delegable=True,
         title="Pick today's post", minutes=1, noun="post to choose", group="posts to choose",
         instructions="Tap a number and that one becomes a draft to approve. Nothing goes to X yet.",
-        why=("These were written from the current database and from your own seeds, then checked "
-             "against VOICE.md. Anything that quoted a number it could not prove was dropped before "
-             "you saw it." + (" Notes: " + "; ".join(notes[:2]) if notes else "")))
+        why=(("Every option is a placeholder, not written copy: there is no OPENROUTER_API_KEY, so "
+              "the numbers are real but the sentences are not. Add the key and tap Generate new. "
+              if len(templated) == len(opts) else
+              "These were written from the current database and from your own seeds, then checked "
+              "against VOICE.md. Anything that quoted a number it could not prove was dropped "
+              "before you saw it. ")
+             + ("Notes: " + "; ".join(notes[:2]) if notes else "")).strip())
     gates.append(q["id"])
 
 
