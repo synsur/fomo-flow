@@ -36,7 +36,7 @@ Solana spot trades**:
 - **Same order book, up to 5× the price.** Eleven front-ends route into the same
   Hyperliquid book and charge builder markups from **1.86 to 9.31 bp** on top of it. FOMO's
   4.47 bp is mid-table, but the share of its traders who finish net positive (39%) is
-  third-lowest of the eleven.
+  second-lowest of the eleven.
 - **Winners and losers are behaviourally identical** at the median: 2 active days, 2
   markets, 100% taker, near-identical fill sizes. There is no visible edge — it is
   variance.
@@ -220,8 +220,8 @@ both fees. Chart 09 draws the markup column.
 Two things are true at once. The price of the same order book varies **5×** across
 front-ends, and FOMO sits in the middle of that range, cheaper than Phantom, Trust and
 MetaMask. But the outcome column does not follow the price column: FOMO's traders finish
-net positive less often than every app except Trasia and Liquid, including apps that
-charge more. Whatever is costing FOMO's users, it is not only the markup — the crowd's
+net positive less often than every app except Trasia, including apps that charge more —
+Liquid is cheaper *and* 40%, MetaMask charges 2× and still finishes at 51%. Whatever is costing FOMO's users, it is not only the markup — the crowd's
 behaviour (98% taker, chasing bursts, Phase 4 below) does the rest.
 
 *Window caveat:* in these two weeks FOMO's cohort made **+$1.97M** trading against

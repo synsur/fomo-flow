@@ -1,8 +1,8 @@
 contract: 1
 name: profphet
-display_name: "@profphet"
+display_name: "profphet"
 path: /Users/cynful/fohomo
-description: "@profphet on X: crypto and money twitter, receipts from public on-chain data. fomo.family is the first data series; a live Telegram feed and referral funnel are planned (PLAN.md)."
+description: "profphet (@profphetic) on X: crypto and money twitter, receipts from public on-chain data. Posts in two lanes, one for one - data grounded in the live database, life shaped from the operator's own seeds (VOICE.md). fomo.family is the first data series; a live Telegram feed and referral funnel are planned (PLAN.md)."
 timezone: America/Toronto
 shapes: [feed, social]
 
@@ -28,8 +28,8 @@ jobs:                             # the Telegram feed poller (PLAN.md A1-A3) is 
 accounts:
   - id: x
     platform: x
-    handle: "@profphet"
-    posting: manual
+    handle: "@profphetic"
+    posting: manual                 # kontrol drafts and checks; the operator posts. See research x-posting-method.
     replies: off
     interactions: off
     limits: { posts_per_day: 3 }
@@ -66,6 +66,22 @@ gates:
     kind: decision
     delegable: false
     if_unanswered: wait
+  - id: openrouter-key
+    lane: setup
+    kind: manual-step
+    delegable: false
+    reason: "the generator writes candidate posts through OpenRouter; without the key every option is a template"
+    if_unanswered: wait
+  - id: pick-post
+    kind: decision
+    delegable: true
+    if_unanswered: wait
+  - id: need-seeds
+    lane: setup
+    kind: manual-step
+    delegable: false
+    reason: "a life post is shaped from something that actually happened; only the operator has those"
+    if_unanswered: wait
   - id: approve-post
     kind: approve-item
     delegable: true
@@ -87,6 +103,7 @@ budget:
 secrets:
   TELEGRAM_BOT_TOKEN: telegram-channel
   REFERRAL_LINK: referral-terms
+  OPENROUTER_API_KEY: openrouter-key
 
 research:
   - id: x-posting-method
