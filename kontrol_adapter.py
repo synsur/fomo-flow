@@ -393,6 +393,16 @@ def queue(s):
 def run(s, live, action):
     gates, actions, errors = [], [], []
     sc = holds()
+    # A setup card's wording is frozen when it is raised, so an edit to ITEMS never reached a
+    # card already on the operator's phone: `confirm-intake` still said "@profphet" days after
+    # the handle changed. Re-sync the text each run; the answer and the id are untouched.
+    by_milestone = {it["id"]: it for it in ITEMS}
+    for q in s["queue"]:
+        src = by_milestone.get(q.get("milestone"))
+        if src:
+            q["summary"] = src["summary"]
+            q["instructions"] = src.get("instructions", q.get("instructions", ""))
+
     if not s.get("raised"):
         for it in ITEMS:
             q = new_item(s, it["gate"], it["kind"], it["summary"], options=it.get("options", []),
