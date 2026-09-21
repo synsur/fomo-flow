@@ -55,16 +55,23 @@ def main():
     facts, rejected = voice.available_facts(today=date(2026, 9, 20))
     ok(all(f.numbers and f.body and f.as_of for f in facts), "every usable fact carries numbers, body and a date")
     ok(all(why for _, why in rejected), "every rejected fact says why")
-    stale = [f for f, why in rejected if "staler" in why]
-    ok(bool(stale), "stale facts are refused rather than posted", f"{len(stale)} refused")
 
-    # a fact must never be usable when its data is older than its allowance
-    if facts:
-        f = facts[0]
-        ok(f.stale_by(0, date(2099, 1, 1)) > 0, "a fact goes stale as the clock moves")
+    # Staleness is a property of the code, not of whichever machine runs the suite: the Mac's
+    # databases are stale local artifacts and the PC's are current, so assert it against a
+    # fact built for the purpose rather than against whatever happens to be on disk.
+    old = voice.Fact("t", "t", "1", "b", ["1"], "sql", date(2026, 1, 1), "t.db")
+    ok(old.stale_by(7, date(2026, 9, 20)) > 0, "a fact past its allowance reports as stale")
+    ok(voice.Fact("t", "t", "1", "b", ["1"], "sql", date(2026, 9, 20), "t.db")
+       .stale_by(7, date(2026, 9, 20)) <= 0, "a fresh fact does not")
+    ok(all("staler" in why or "not on this machine" in why or "already posted" in why
+           or "no fills" in why or "too few" in why for _, why in rejected),
+       "every rejection reason is one the card can show", [w for _, w in rejected])
 
     # ---- the validator --------------------------------------------------------------
-    f = facts[0] if facts else None
+    # A fixed fact, so the number-grounding cases mean the same thing on either machine.
+    f = voice.Fact("builder-spread", "The same order book, at very different prices", "5.0x",
+                   "eleven front-ends, 1.86 bp to 9.31 bp, a spread of 5.0x",
+                   ["5.0x", "1.86 bp", "9.31 bp", "11"], "sql", date(2026, 9, 20), "builders.db")
     seed = "lost 4k on a red day in march. sat at the screen three hours after the close."
     cases = [
         ("data", "the markup runs 1.86 bp to 9.31 bp. a 5.0x spread on the same fill.", None, True),
